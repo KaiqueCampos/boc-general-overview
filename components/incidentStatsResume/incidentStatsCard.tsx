@@ -22,7 +22,7 @@ export function IncidentStatCard({
       className={MergeClasses(
         "flex items-center gap-4 rounded-xl px-5 py-3 border",
         isOpen
-          ? "border-status-open/40 bg-status-open/20"
+          ? "border-status-open/40 bg-status-open/15"
           : "border-status-resolved/20 bg-status-resolved/6",
       )}
     >
