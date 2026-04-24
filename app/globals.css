@@ -48,11 +48,14 @@
   --sidebar-border: #1e1e2a;
   --sidebar-ring: #8b5cf6;
 
+  /* Severity */
   --severity-p1: #e14747;
   --severity-p2: #f6aa28;
-  --severity-p3: #9663e9;
-  --status-open: #2eb873;
-  --status-resolved: #79708f;
+  --severity-p3: #3b82f6;
+
+  /* Status */
+  --status-open: #8b5cf6;
+  --status-resolved: #22c55e;
   --status-canceled: #554f64;
 }
 
