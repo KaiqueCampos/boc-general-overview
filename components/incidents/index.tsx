@@ -26,6 +26,25 @@ export function Incidents() {
       updated_at: null,
       closed_at: null,
       inc: "INC-902",
+      updates: [
+        {
+          message:
+            "Incidente aberto automaticamente pelo monitoramento do Datadog.",
+          author: "William Delara",
+          created_at: "2026-04-23 13:59:54.92663+00",
+        },
+        {
+          message: "Time de SRE acionado para investigação inicial.",
+          author: "Kaique Ferraz",
+          created_at: "2026-04-23 14:05:12+00",
+        },
+        {
+          message:
+            "Identificada falha na API de abastecimento. Investigando causa raiz.",
+          author: "Kaio Reis",
+          created_at: "2026-04-23 14:18:40+00",
+        },
+      ],
     },
     {
       id: "a1b2c3d4-1111-2222-3333-444455556666",
@@ -44,6 +63,23 @@ export function Incidents() {
       updated_at: null,
       closed_at: null,
       inc: "INC-903",
+      updates: [
+        {
+          message: "Falhas intermitentes detectadas no fluxo de login.",
+          author: "Carolina Ribeiro",
+          created_at: "2026-04-24 09:15:10.12345+00",
+        },
+        {
+          message: "Backend team acionado para análise de autenticação.",
+          author: "Arthur Haziro",
+          created_at: "2026-04-24 09:20:00+00",
+        },
+        {
+          message: "Suspeita de degradação em serviço de sessão.",
+          author: "Kaique Campos",
+          created_at: "2026-04-24 09:35:22+00",
+        },
+      ],
     },
     {
       id: "b7c8d9e0-7777-8888-9999-0000aaaabbbb",
@@ -62,6 +98,18 @@ export function Incidents() {
       updated_at: null,
       closed_at: null,
       inc: "INC-904",
+      updates: [
+        {
+          message: "Atraso detectado na fila de eventos webhook.",
+          author: "Kaique Ferraz",
+          created_at: "2026-04-24 11:42:00.00000+00",
+        },
+        {
+          message: "Equipe de integrações iniciou análise de backlog.",
+          author: "Kaique Ferraz",
+          created_at: "2026-04-24 11:55:10+00",
+        },
+      ],
     },
     {
       id: "c1d2e3f4-aaaa-bbbb-cccc-ddddeeeeffff",
@@ -81,6 +129,28 @@ export function Incidents() {
       updated_at: "2026-04-22 17:10:00.00000+00",
       closed_at: "2026-04-22 17:10:00.00000+00",
       inc: "INC-905",
+      updates: [
+        {
+          message: "Latência elevada detectada no processamento de pagamentos.",
+          author: "Raquel Delara",
+          created_at: "2026-04-22 16:30:00.00000+00",
+        },
+        {
+          message: "Equipe de Payments acionada para investigação.",
+          author: "Luis Nascimento",
+          created_at: "2026-04-22 16:35:00+00",
+        },
+        {
+          message: "Identificado gargalo em serviço de autorização.",
+          author: "Helbert Rocha",
+          created_at: "2026-04-22 16:50:00+00",
+        },
+        {
+          message: "Correção aplicada e sistema estabilizado.",
+          author: "Bruno Pretes",
+          created_at: "2026-04-22 17:10:00+00",
+        },
+      ],
     },
   ];
 
@@ -90,15 +160,19 @@ export function Incidents() {
       : mockIncidents.filter((i) => i.status === filter);
 
   return (
-    <div className="flex-3 min-h-0 h-full md:p-6 ">
+    <div className="flex flex-1 min-h-0 w-full md:p-6 gap-4 ">
       <IncidentList
         filter={filter}
         setFilter={setFilter}
         incidents={filteredIncidents}
         isLoading={false}
         selectedId={selectedId}
-        onSelect={setSelectedId}
+        setSelect={setSelectedId}
       />
+
+      <div className="w-full min-w-0">
+        <h1>Details</h1>
+      </div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ import { IncidentSeverityCard } from "./incidentSeverityCard";
 
 export function IncidentStats() {
   return (
-    <main className="flex-1 p-4 md:p-6 ">
+    <main className="p-4 md:p-6 ">
       <div className=" flex flex-col gap-3">
         <div className="grid grid-cols-2 gap-3">
           <IncidentStatCard
@@ -28,7 +28,7 @@ export function IncidentStats() {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-3 ">
           <IncidentSeverityCard
             severity="p1"
             title="P1 — Impacto Total"
