@@ -1,7 +1,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { IncidentDetailsHeader } from "./incidentDetailsHeader";
 import { Incident } from "@/types/incident";
-import { Activity, Server, Ticket, Users } from "lucide-react";
+import { Activity, AppWindow, Server, Ticket, Users } from "lucide-react";
 import { Text } from "@/components/ui/topography";
 import { ScrollArea } from "@/components/ui/scroolArea";
 import { IncidentInfo } from "./incidentInfo";
@@ -53,6 +53,12 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
               <div className="px-6 py-4 space-y-6">
                 {/* Info grid */}
                 <div className="grid grid-cols-1 gap-2">
+                  <IncidentInfo
+                    icon={AppWindow}
+                    title="Plataforma"
+                    value={incident.platform}
+                  />
+
                   <IncidentInfo
                     icon={Server}
                     title="Impacto de Negócio"
