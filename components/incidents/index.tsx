@@ -26,7 +26,6 @@ export function Incidents({ incidents }: IncidentsProps) {
         filter={filter}
         setFilter={setFilter}
         incidents={filteredIncidents}
-        isLoading={false}
         selectedId={selectedId}
         setSelectedId={setSelectedId}
       />

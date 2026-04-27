@@ -17,5 +17,5 @@ export async function getIncidents(): Promise<Incident[]> {
     throw error;
   }
 
-  return data;
+  return data ?? [];
 }
