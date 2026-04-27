@@ -30,7 +30,7 @@ export function IncidentList({
   );
 
   return (
-    <div className="w-full min-w-0 max-w-4xl ">
+    <div className="w-full min-w-0 max-w-4xl">
       <IncidentListHeader
         filter={filter}
         onFilterChange={setFilter}

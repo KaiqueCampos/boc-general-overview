@@ -1,11 +1,12 @@
-import { Clock, ChevronRight, Users } from "lucide-react";
-import { formatDistanceToNow } from "date-fns";
-import { MergeClasses } from "@/utils/mergeClasses";
 import { Text } from "@/components/ui/topography";
+import { MergeClasses } from "@/utils/mergeClasses";
+import { formatDistanceToNow } from "date-fns";
+import { ChevronRight, Users } from "lucide-react";
 
 import SeverityBadge from "@/components/ui/severityBadge";
 import StatusBadge from "@/components/ui/statusBadge";
-import { getIncidentTimeInfo } from "@/utils/CalculateIncidentDuration";
+import { ptBR } from "date-fns/locale";
+import { IncidentStarInfo } from "../incidentStartInfo";
 
 interface IncidentUpdate {
   message: string;
@@ -29,7 +30,7 @@ interface Incident {
 interface IncidentCardProps {
   incident: Incident;
   isSelected: boolean;
-  onClick: () => void;
+  onClick: (inc: string) => void;
 }
 
 export function IncidentCard({
@@ -37,12 +38,6 @@ export function IncidentCard({
   isSelected,
   onClick,
 }: IncidentCardProps) {
-  const lastUpdate = incident.last_update_at
-    ? formatDistanceToNow(new Date(incident.last_update_at), {
-        addSuffix: true,
-      })
-    : null;
-
   const severityAccent = {
     P1: "border-l-severity-p1",
     P2: "border-l-severity-p2",
@@ -56,14 +51,13 @@ export function IncidentCard({
   const lastUpdateTime = lastUpdateItem?.created_at
     ? formatDistanceToNow(new Date(lastUpdateItem.created_at), {
         addSuffix: true,
+        locale: ptBR,
       })
     : null;
 
-  const { duration, start } = getIncidentTimeInfo(incident.created_at);
-
   return (
     <button
-      onClick={onClick}
+      onClick={() => onClick(incident.inc)}
       className={MergeClasses(
         "w-full overflow-hidden text-left rounded-lg border border-l-[3px] transition-all duration-200",
         "hover:bg-accent/60 group",
@@ -117,12 +111,7 @@ export function IncidentCard({
                 <Users className="h-3 w-3" />
                 {incident.responsible_team}
               </Text>
-              <Text variant="caption" className="text-muted-foreground">
-                <span className="inline-flex items-center gap-1">
-                  <Clock className="h-3 w-3" />
-                  {start} • {duration}
-                </span>
-              </Text>
+              <IncidentStarInfo created_at={incident.created_at} />
             </>
           )}
         </div>
