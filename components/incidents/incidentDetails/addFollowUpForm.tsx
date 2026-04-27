@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/topography";
 import { Send } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
+import { supabase } from "@/lib/db/supabase";
+import { useRouter } from "next/navigation";
 
 interface AddFollowUpFormProps {
   inc: string;
@@ -11,20 +13,42 @@ interface AddFollowUpFormProps {
 export function AddFollowUpForm({ inc }: AddFollowUpFormProps) {
   const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!author.trim() || !message.trim()) return;
 
-    console.log({
-      inc,
-      author: author.trim(),
-      message: message.trim(),
-    });
+    try {
+      const { data: incident, error } = await supabase
+        .from("incidents")
+        .select("id")
+        .eq("inc", inc)
+        .single();
 
-    setAuthor("");
-    setMessage("");
+      if (error || !incident) {
+        throw error || new Error("Incident not found");
+      }
+
+      const { error: insertError } = await supabase
+        .from("incident_updates")
+        .insert({
+          incident_id: incident.id,
+          author: author.trim(),
+          message: message.trim(),
+        });
+
+      if (insertError) throw insertError;
+
+      // ✅ reset
+      setAuthor("");
+      setMessage("");
+
+      router.refresh();
+    } catch (err) {
+      console.error("Error adding incident update:", err);
+    }
   };
 
   return (

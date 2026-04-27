@@ -86,10 +86,10 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
                     color="text-muted-foreground"
                     className="uppercase tracking-wider  mb-3"
                   >
-                    Timeline dos Reports ({incident.updates.length})
+                    Timeline dos Reports ({incident.incident_updates.length})
                   </Text>
 
-                  <FollowUpTimeline updates={incident.updates} />
+                  <FollowUpTimeline updates={incident.incident_updates} />
                 </div>
 
                 {/* Add follow-up */}

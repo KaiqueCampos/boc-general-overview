@@ -26,8 +26,8 @@ export function IncidentCard({
     P3: "border-l-severity-p3",
   };
 
-  const lastUpdateItem = incident.updates?.length
-    ? incident.updates[incident.updates.length - 1]
+  const lastUpdateItem = incident.incident_updates?.length
+    ? incident.incident_updates[incident.incident_updates.length - 1]
     : null;
 
   const lastUpdateTime = lastUpdateItem?.created_at

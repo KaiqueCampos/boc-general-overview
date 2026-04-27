@@ -1,12 +1,12 @@
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { MessageSquare } from "lucide-react";
-import { IncidentUpdate } from "@/types/incident";
 import { Text } from "@/components/ui/topography";
 import { MergeClasses } from "@/utils/mergeClasses";
+import { IncidentUpdates } from "@/types/incident";
 
 interface FollowUpTimelineProps {
-  updates: IncidentUpdate[];
+  updates: IncidentUpdates[];
 }
 
 export function FollowUpTimeline({ updates }: FollowUpTimelineProps) {
