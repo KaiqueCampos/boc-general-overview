@@ -99,7 +99,7 @@ export function IncidentCard({
         </div>
 
         {/* Row 4 - Last update */}
-        {lastUpdateItem && (
+        {lastUpdateItem ? (
           <div className="mt-2 border-t border-border/50 pt-2 space-y-0.5">
             <Text variant="caption" className="text-muted-foreground/80">
               <span className="font-bold text-muted-foreground">
@@ -118,6 +118,10 @@ export function IncidentCard({
               {lastUpdateItem.message}
             </Text>
           </div>
+        ) : (
+          <Text variant="caption" color="text-primary" className="italic">
+            O Incidente ainda não possui nenhum report.
+          </Text>
         )}
       </div>
     </button>

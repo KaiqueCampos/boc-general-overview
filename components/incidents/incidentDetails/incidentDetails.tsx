@@ -1,12 +1,13 @@
-import { AnimatePresence, motion } from "framer-motion";
-import { IncidentDetailsHeader } from "./incidentDetailsHeader";
-import { Incident } from "@/types/incident";
-import { Activity, AppWindow, Server, Ticket, Users } from "lucide-react";
-import { Text } from "@/components/ui/topography";
 import { ScrollArea } from "@/components/ui/scroolArea";
-import { IncidentInfo } from "./incidentInfo";
-import { FollowUpTimeline } from "./followUpTimeline";
+import { Text } from "@/components/ui/topography";
+import { Incident, IncidentUpdates } from "@/types/incident";
+import { AnimatePresence, motion } from "framer-motion";
+import { Activity, AppWindow, Server, Ticket, Users } from "lucide-react";
+import { useState } from "react";
 import { AddFollowUpForm } from "./addFollowUpForm";
+import { FollowUpTimeline } from "./followUpTimeline";
+import { IncidentDetailsHeader } from "./incidentDetailsHeader";
+import { IncidentInfo } from "./incidentInfo";
 import { IncidentVinculatedCard } from "./incidentVinculatedCards";
 
 interface IncidentDetailsProps {
@@ -15,6 +16,10 @@ interface IncidentDetailsProps {
 }
 
 export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
+  const [editingUpdate, setEditingUpdate] = useState<IncidentUpdates | null>(
+    null,
+  );
+
   return (
     <div className="flex min-h-0 w-full">
       <AnimatePresence mode="wait">
@@ -89,11 +94,18 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
                     Timeline dos Reports ({incident.incident_updates.length})
                   </Text>
 
-                  <FollowUpTimeline updates={incident.incident_updates} />
+                  <FollowUpTimeline
+                    updates={incident.incident_updates}
+                    onEdit={(update) => setEditingUpdate(update)}
+                  />
                 </div>
 
                 {/* Add follow-up */}
-                <AddFollowUpForm inc={incident.inc} />
+                <AddFollowUpForm
+                  inc={incident.inc}
+                  editingUpdate={editingUpdate}
+                  onCancelEdit={() => setEditingUpdate(null)}
+                />
               </div>
             </ScrollArea>
           </motion.div>
