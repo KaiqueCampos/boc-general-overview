@@ -1,9 +1,11 @@
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Text } from "@/components/ui/topography";
 
+export type IncidentFilter = "all" | "open" | "resolved";
+
 interface IncidentListHeaderProps {
-  filter: string;
-  onFilterChange: (value: string) => void;
+  filter: IncidentFilter;
+  onFilterChange: (value: IncidentFilter) => void;
   total: number;
 }
 
@@ -35,7 +37,10 @@ export function IncidentListHeader({
         </div>
 
         {/* Filters */}
-        <Tabs value={filter || "all"} onValueChange={onFilterChange}>
+        <Tabs
+          value={filter}
+          onValueChange={(value) => onFilterChange(value as IncidentFilter)}
+        >
           <TabsList className="h-8 bg-secondary">
             <TabsTrigger value="all" className="text-xs px-3 h-6">
               Todos

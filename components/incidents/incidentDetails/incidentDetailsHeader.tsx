@@ -32,10 +32,6 @@ export function IncidentDetailsHeader({
         <Text variant="h2" weight="bold" className="leading-snug line-clamp-2">
           {incident.title}
         </Text>
-
-        <Text variant="caption" className="text-muted-foreground mt-1 block">
-          {incident.inc}
-        </Text>
       </div>
 
       <Button

@@ -7,25 +7,7 @@ import SeverityBadge from "@/components/ui/severityBadge";
 import StatusBadge from "@/components/ui/statusBadge";
 import { ptBR } from "date-fns/locale";
 import { IncidentStarInfo } from "../incidentStartInfo";
-
-interface IncidentUpdate {
-  message: string;
-  author: string;
-  created_at: string;
-}
-
-interface Incident {
-  inc: string;
-  incident_id: string;
-  title: string;
-  severity: "P1" | "P2" | "P3";
-  status: "open" | "resolved" | "canceled";
-  responsible_team?: string;
-  last_update_at?: string | null;
-  created_at: string;
-  last_update_message?: string | null;
-  updates?: IncidentUpdate[];
-}
+import { Incident } from "@/types/incident";
 
 interface IncidentCardProps {
   incident: Incident;

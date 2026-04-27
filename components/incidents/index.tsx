@@ -5,8 +5,10 @@ import { useState } from "react";
 import { IncidentDetails } from "./incidentDetails/incidentDetails";
 import { IncidentList } from "./incidentList/incidentList";
 
+type IncidentFilterProps = "all" | "open" | "resolved";
+
 export function Incidents() {
-  const [filter, setFilter] = useState("all");
+  const [filter, setFilter] = useState<IncidentFilterProps>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
   const filteredIncidents =
@@ -25,7 +27,7 @@ export function Incidents() {
         incidents={filteredIncidents}
         isLoading={false}
         selectedId={selectedId}
-        setSelect={setSelectedId}
+        setSelectedId={setSelectedId}
       />
 
       <IncidentDetails
