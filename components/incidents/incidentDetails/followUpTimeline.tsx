@@ -1,15 +1,15 @@
 "use client";
 
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
-import { MessageSquare, Pencil, Trash2, X } from "lucide-react";
+import { ConfirmDeleteModal } from "@/components/ui/confirmDeleteModal";
 import { Text } from "@/components/ui/topography";
-import { MergeClasses } from "@/utils/mergeClasses";
+import { deleteIncidentUpdate } from "@/lib/db/incident_updates.data";
 import { IncidentUpdates } from "@/types/incident";
-import { supabase } from "@/lib/db/supabase";
+import { MergeClasses } from "@/utils/mergeClasses";
+import { Pencil, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { EmptyIncidentUpdatesState } from "./emptyIncidentUpdates";
+import { formatDateBR } from "@/utils/time";
 
 interface FollowUpTimelineProps {
   updates: IncidentUpdates[];
@@ -20,33 +20,14 @@ export function FollowUpTimeline({ updates, onEdit }: FollowUpTimelineProps) {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  const handleDeleteUpdate = async (update_id: string) => {
-    try {
-      if (!deleteId) return;
-
-      const { error } = await supabase
-        .from("incident_updates")
-        .delete()
-        .eq("id", update_id);
-
-      if (error) throw error;
-
-      setDeleteId(null);
-      router.refresh();
-    } catch (err) {
-      console.error("Error deleting update:", err);
-    }
-  };
+  async function handleDeleteUpdate(id: string) {
+    await deleteIncidentUpdate(id);
+    setDeleteId(null);
+    router.refresh();
+  }
 
   if (!updates || updates.length === 0) {
-    return (
-      <div className="flex flex-col items-center justify-center py-12 text-muted-foreground">
-        <MessageSquare className="h-8 w-8 mb-2 opacity-40" />
-        <Text variant="text" className="text-muted-foreground">
-          Sem Reports do Incidente
-        </Text>
-      </div>
-    );
+    return <EmptyIncidentUpdatesState />;
   }
 
   return (
@@ -107,11 +88,7 @@ export function FollowUpTimeline({ updates, onEdit }: FollowUpTimelineProps) {
                     variant="caption"
                     className="font-mono text-muted-foreground"
                   >
-                    (
-                    {format(new Date(update.created_at), "dd MMM, HH:mm", {
-                      locale: ptBR,
-                    })}
-                    )
+                    ({formatDateBR(update.created_at)})
                   </Text>
                 </div>
 
@@ -129,37 +106,11 @@ export function FollowUpTimeline({ updates, onEdit }: FollowUpTimelineProps) {
       </div>
 
       {deleteId && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-          <div className="bg-card border border-border p-4 rounded-lg w-[320px] space-y-3">
-            <Text
-              variant="text"
-              weight="bold"
-              color="text-foreground uppercase"
-            >
-              Confirmar ação...
-            </Text>
-            <Text variant="text" weight="medium" color="text-muted-foreground">
-              Tem certeza que deseja deletar este report? Ele deixará de
-              aparecer na timeline de updates.
-            </Text>
-
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setDeleteId(null)}>
-                <X className="h-3.5 w-3.5" />
-                Cancelar
-              </Button>
-
-              <Button
-                variant="destructive"
-                className="text-sm px-3 py-1 rounded-md bg-red-500 text-white"
-                onClick={() => handleDeleteUpdate(deleteId)}
-              >
-                <Trash2 className="h-3.5 w-3.5" />
-                Remover Report
-              </Button>
-            </div>
-          </div>
-        </div>
+        <ConfirmDeleteModal
+          description="Tem certeza que deseja deletar este report? Ele deixará de aparecer na timeline de updates."
+          onCancel={() => setDeleteId(null)}
+          onConfirm={() => handleDeleteUpdate(deleteId)}
+        />
       )}
     </div>
   );

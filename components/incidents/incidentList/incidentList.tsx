@@ -1,11 +1,10 @@
-import { useMemo } from "react";
 import { Activity } from "lucide-react";
 
+import { Text } from "@/components/ui/topography";
+import { Incident } from "@/types/incident";
 import { ScrollArea } from "../../ui/scroolArea";
 import { IncidentCard } from "./incidentCard";
 import { IncidentListHeader } from "./incidentHeader";
-import { Text } from "@/components/ui/topography";
-import { Incident } from "@/types/incident";
 
 export type IncidentFilter = "all" | "open" | "resolved";
 
@@ -24,18 +23,6 @@ export function IncidentList({
   selectedId,
   setSelectedId,
 }: IncidentListProps) {
-  const sortedIncidents = useMemo(() => {
-    const priorityOrder: Record<Incident["severity"], number> = {
-      P1: 0,
-      P2: 1,
-      P3: 2,
-    };
-
-    return [...incidents].sort(
-      (a, b) => priorityOrder[a.severity] - priorityOrder[b.severity],
-    );
-  }, [incidents]);
-
   return (
     <div className="w-full min-w-0 max-w-4xl">
       <IncidentListHeader
@@ -59,7 +46,7 @@ export function IncidentList({
                 </Text>
               </div>
             ) : (
-              sortedIncidents.map((incident) => (
+              incidents.map((incident) => (
                 <IncidentCard
                   key={incident.id}
                   incident={incident}

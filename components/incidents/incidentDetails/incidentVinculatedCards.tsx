@@ -16,7 +16,6 @@ export function IncidentVinculatedCard({
   hrefPrefix,
 }: IncidentVinculatedCardProps) {
   const hasValue = !!value?.trim();
-
   const href = hasValue && hrefPrefix ? `${hrefPrefix}${value}` : undefined;
 
   const Content = (

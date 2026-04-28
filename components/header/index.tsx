@@ -1,7 +1,6 @@
-import { format } from "date-fns";
 import { Activity, Radio } from "lucide-react";
 import { Text } from "../ui/topography";
-import { ptBR } from "date-fns/locale";
+import { formatDateBR } from "@/utils/time";
 
 export function Header() {
   return (
@@ -26,11 +25,9 @@ export function Header() {
               color="text-muted-foreground"
               className="mt-0.5 flex items-center gap-1.5"
             >
-              <Radio className="h-2.5 w-2.5 text-status-open text-green-400" />
+              <Radio className="h-2.5 w-2.5  text-green-400" />
               <span className="text-green-400">Live</span> —{" "}
-              {format(new Date(), "EEE, MMM d yyyy · HH:mm", {
-                locale: ptBR,
-              })}
+              {formatDateBR(new Date())}
             </Text>
           </div>
         </div>

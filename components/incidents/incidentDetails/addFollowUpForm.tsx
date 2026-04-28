@@ -1,22 +1,25 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Text } from "@/components/ui/topography";
-import { ClosedCaption, Send, X } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
-import { supabase } from "@/lib/db/supabase";
-import { useRouter } from "next/navigation";
+import { Text } from "@/components/ui/topography";
+import {
+  createIncidentUpdate,
+  updateIncidentUpdate,
+} from "@/lib/db/incident_updates.data";
 import { IncidentUpdates } from "@/types/incident";
+import { Send, X } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 interface AddFollowUpFormProps {
-  inc: string;
+  incidentID: string;
   editingUpdate?: IncidentUpdates | null;
   onCancelEdit?: () => void;
 }
 
 export function AddFollowUpForm({
-  inc,
+  incidentID,
   editingUpdate,
   onCancelEdit,
 }: AddFollowUpFormProps) {
@@ -41,47 +44,26 @@ export function AddFollowUpForm({
     e.preventDefault();
 
     if (!author.trim() || !message.trim()) return;
+    if (editingUpdate) {
+      await updateIncidentUpdate({
+        author: author.trim(),
+        message: message.trim(),
+        id: editingUpdate.id,
+      });
+    } else {
+      console.log(incidentID);
 
-    try {
-      if (editingUpdate) {
-        const { error } = await supabase
-          .from("incident_updates")
-          .update({
-            author: author.trim(),
-            message: message.trim(),
-          })
-          .eq("id", editingUpdate.id);
-
-        if (error) throw error;
-      } else {
-        const { data: incident, error } = await supabase
-          .from("incidents")
-          .select("id")
-          .eq("inc", inc)
-          .single();
-
-        if (error || !incident) {
-          throw error || new Error("Incident not found");
-        }
-
-        const { error: insertError } = await supabase
-          .from("incident_updates")
-          .insert({
-            incident_id: incident.id,
-            author: author.trim(),
-            message: message.trim(),
-          });
-
-        if (insertError) throw insertError;
-      }
-
-      setAuthor("");
-      setMessage("");
-
-      router.refresh();
-    } catch (err) {
-      console.error("Error adding incident update:", err);
+      await createIncidentUpdate({
+        incident_id: incidentID,
+        author: author.trim(),
+        message: message.trim(),
+      });
     }
+
+    setAuthor("");
+    setMessage("");
+
+    router.refresh();
   };
 
   return (

@@ -1,13 +1,12 @@
 import { Text } from "@/components/ui/topography";
 import { MergeClasses } from "@/utils/mergeClasses";
-import { formatDistanceToNow } from "date-fns";
 import { ChevronRight, Users } from "lucide-react";
 
 import SeverityBadge from "@/components/ui/severityBadge";
 import StatusBadge from "@/components/ui/statusBadge";
-import { ptBR } from "date-fns/locale";
-import { IncidentStarInfo } from "../incidentStartInfo";
 import { Incident } from "@/types/incident";
+import { getTimeFromNow } from "@/utils/time";
+import { IncidentStarInfo } from "../incidentStartInfo";
 
 interface IncidentCardProps {
   incident: Incident;
@@ -20,21 +19,12 @@ export function IncidentCard({
   isSelected,
   onClick,
 }: IncidentCardProps) {
-  const severityAccent = {
-    P1: "border-l-severity-p1",
-    P2: "border-l-severity-p2",
-    P3: "border-l-severity-p3",
-  };
-
   const lastUpdateItem = incident.incident_updates?.length
     ? incident.incident_updates[incident.incident_updates.length - 1]
     : null;
 
   const lastUpdateTime = lastUpdateItem?.created_at
-    ? formatDistanceToNow(new Date(lastUpdateItem.created_at), {
-        addSuffix: true,
-        locale: ptBR,
-      })
+    ? getTimeFromNow(lastUpdateItem.created_at)
     : null;
 
   return (
@@ -43,7 +33,6 @@ export function IncidentCard({
       className={MergeClasses(
         "w-full overflow-hidden text-left rounded-lg border border-l-[3px] transition-all duration-200",
         "hover:bg-accent/60 group",
-        severityAccent[incident.severity] || "border-l-border",
         isSelected
           ? "bg-accent border-accent ring-1 ring-primary/50"
           : "bg-card border-border",
@@ -84,18 +73,14 @@ export function IncidentCard({
 
         {/* Row 3 - Meta */}
         <div className="flex items-center gap-5">
-          {incident.responsible_team && (
-            <>
-              <Text
-                variant="caption"
-                className="flex items-center gap-1 text-muted-foreground"
-              >
-                <Users className="h-3 w-3" />
-                {incident.responsible_team}
-              </Text>
-              <IncidentStarInfo created_at={incident.created_at} />
-            </>
-          )}
+          <Text
+            variant="caption"
+            className="flex items-center gap-1 text-muted-foreground"
+          >
+            <Users className="h-3 w-3" />
+            {incident.responsible_team}
+          </Text>
+          <IncidentStarInfo created_at={incident.created_at} />
         </div>
 
         {/* Row 4 - Last update */}

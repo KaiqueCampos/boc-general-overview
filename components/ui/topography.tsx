@@ -1,5 +1,3 @@
-"use client";
-
 import { MergeClasses } from "@/utils/mergeClasses";
 import { ElementType, HTMLAttributes } from "react";
 

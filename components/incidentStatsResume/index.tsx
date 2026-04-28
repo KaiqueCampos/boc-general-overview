@@ -6,36 +6,25 @@ import {
   Shield,
 } from "lucide-react";
 
-import { IncidentStatCard } from "./incidentStatsCard";
-import { IncidentSeverityCard } from "./incidentSeverityCard";
 import { Incident } from "@/types/incident";
-import { useMemo } from "react";
+import { IncidentSeverityCard } from "./incidentSeverityCard";
+import { IncidentStatCard } from "./incidentStatsCard";
 
 interface IncidentStatsProps {
-  incidents: Incident[];
+  openIncidents: Incident[];
+  resolvedIncidents: Incident[];
+  severityCount: {
+    p1: number;
+    p2: number;
+    p3: number;
+  };
 }
 
-export function IncidentStats({ incidents }: IncidentStatsProps) {
-  const openIncidents = useMemo(
-    () => incidents.filter((i) => i.status === "open"),
-    [incidents],
-  );
-
-  const resolvedIncidents = useMemo(
-    () => incidents.filter((i) => i.status === "resolved"),
-    [incidents],
-  );
-
-  const severityCount = useMemo(() => {
-    return openIncidents.reduce(
-      (acc, incident) => {
-        acc[incident.severity.toLowerCase() as "p1" | "p2" | "p3"]++;
-        return acc;
-      },
-      { p1: 0, p2: 0, p3: 0 },
-    );
-  }, [openIncidents]);
-
+export function IncidentStats({
+  resolvedIncidents,
+  openIncidents,
+  severityCount,
+}: IncidentStatsProps) {
   return (
     <main className="p-4 md:p-6 ">
       <div className=" flex flex-col gap-3">

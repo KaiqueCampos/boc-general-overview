@@ -2,9 +2,10 @@ import { ScrollArea } from "@/components/ui/scroolArea";
 import { Text } from "@/components/ui/topography";
 import { Incident, IncidentUpdates } from "@/types/incident";
 import { AnimatePresence, motion } from "framer-motion";
-import { Activity, AppWindow, Server, Ticket, Users } from "lucide-react";
+import { AppWindow, Server, Ticket, Users } from "lucide-react";
 import { useState } from "react";
 import { AddFollowUpForm } from "./addFollowUpForm";
+import { EmptyIncidentDetails } from "./emptyIncidentDetails";
 import { FollowUpTimeline } from "./followUpTimeline";
 import { IncidentDetailsHeader } from "./incidentDetailsHeader";
 import { IncidentInfo } from "./incidentInfo";
@@ -38,19 +39,21 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
                 icon={Ticket}
                 label="INC"
                 value={incident.inc}
-                hrefPrefix="https://jira.com/browse/"
+                hrefPrefix="https://abasteceai.atlassian.net/browse/"
               />
 
               <IncidentVinculatedCard
                 icon={Ticket}
                 label="BOCM"
                 value={incident.bocm}
+                hrefPrefix="https://abasteceai.atlassian.net/browse/"
               />
 
               <IncidentVinculatedCard
                 icon={Ticket}
                 label="GPROB"
                 value={incident.gprob}
+                hrefPrefix="https://abasteceai.atlassian.net/browse/"
               />
             </div>
 
@@ -102,7 +105,7 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
 
                 {/* Add follow-up */}
                 <AddFollowUpForm
-                  inc={incident.inc}
+                  incidentID={incident.id}
                   editingUpdate={editingUpdate}
                   onCancelEdit={() => setEditingUpdate(null)}
                 />
@@ -110,26 +113,7 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
             </ScrollArea>
           </motion.div>
         ) : (
-          <motion.div
-            key="empty"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="flex-1 flex flex-col items-center justify-center text-muted-foreground/50"
-          >
-            <Activity className="h-12 w-12 mb-3 opacity-20" />
-            <Text
-              variant="text"
-              weight="medium"
-              color="text-muted-foreground/50"
-            >
-              Selecione um incidente para visualizar os detalhes
-            </Text>
-
-            <Text variant="caption" color="text-muted-foreground/50">
-              Clique em um Incidente da lista para expandir
-            </Text>
-          </motion.div>
+          <EmptyIncidentDetails />
         )}
       </AnimatePresence>
     </div>
