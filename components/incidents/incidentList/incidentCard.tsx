@@ -66,7 +66,7 @@ export function IncidentCard({
         <Text
           variant="text"
           weight="semibold"
-          className="leading-snug line-clamp-2 mb-1.5 text-foreground"
+          className="leading-snug line-clamp mb-1.5 text-foreground"
         >
           {incident.title}
         </Text>
@@ -94,7 +94,7 @@ export function IncidentCard({
 
             <Text
               variant="caption"
-              className="text-muted-foreground/70 line-clamp-1"
+              className="text-muted-foreground/70 line-clamp-3"
             >
               <span className="text-foreground/50">
                 {lastUpdateItem.author}

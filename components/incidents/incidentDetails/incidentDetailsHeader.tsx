@@ -29,7 +29,7 @@ export function IncidentDetailsHeader({
           <IncidentStarInfo created_at={incident.created_at} />
         </div>
 
-        <Text variant="h2" weight="bold" className="leading-snug line-clamp-2">
+        <Text variant="h2" weight="bold" className="leading-snug line-clamp">
           {incident.title}
         </Text>
       </div>
