@@ -14,9 +14,14 @@ import { IncidentVinculatedCard } from "./incidentVinculatedCards";
 interface IncidentDetailsProps {
   incident: Incident | null;
   onClose: () => void;
+  userName: string;
 }
 
-export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
+export function IncidentDetails({
+  incident,
+  onClose,
+  userName,
+}: IncidentDetailsProps) {
   const [editingUpdate, setEditingUpdate] = useState<IncidentUpdates | null>(
     null,
   );
@@ -100,6 +105,7 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
                   <FollowUpTimeline
                     updates={incident.incident_updates}
                     onEdit={(update) => setEditingUpdate(update)}
+                    currentUserName={userName}
                   />
                 </div>
 
@@ -108,6 +114,7 @@ export function IncidentDetails({ incident, onClose }: IncidentDetailsProps) {
                   incidentID={incident.id}
                   editingUpdate={editingUpdate}
                   onCancelEdit={() => setEditingUpdate(null)}
+                  userName={userName}
                 />
               </div>
             </ScrollArea>

@@ -9,9 +9,10 @@ type IncidentFilterProps = "all" | "open" | "resolved";
 
 interface IncidentsProps {
   incidents: Incident[];
+  userName: string;
 }
 
-export function Incidents({ incidents }: IncidentsProps) {
+export function Incidents({ incidents, userName }: IncidentsProps) {
   const [filter, setFilter] = useState<IncidentFilterProps>("all");
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -33,6 +34,7 @@ export function Incidents({ incidents }: IncidentsProps) {
       <IncidentDetails
         incident={selectedIncident}
         onClose={() => setSelectedId(null)}
+        userName={userName}
       />
     </div>
   );

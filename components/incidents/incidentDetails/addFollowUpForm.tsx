@@ -16,55 +16,53 @@ interface AddFollowUpFormProps {
   incidentID: string;
   editingUpdate?: IncidentUpdates | null;
   onCancelEdit?: () => void;
+  userName: string;
 }
 
 export function AddFollowUpForm({
   incidentID,
   editingUpdate,
   onCancelEdit,
+  userName,
 }: AddFollowUpFormProps) {
-  const [author, setAuthor] = useState("");
   const [message, setMessage] = useState("");
   const router = useRouter();
 
   useEffect(() => {
     if (editingUpdate) {
-      setAuthor(editingUpdate.author);
       setMessage(editingUpdate.message);
     }
   }, [editingUpdate]);
 
   function handleCancelEdit() {
-    setAuthor("");
     setMessage("");
     onCancelEdit?.();
   }
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
-    if (!author.trim() || !message.trim()) return;
+    if (!userName || !message.trim()) return;
+
     if (editingUpdate) {
       await updateIncidentUpdate({
-        author: author.trim(),
-        message: message.trim(),
         id: editingUpdate.id,
+        author: userName,
+        message: message.trim(),
       });
     } else {
       console.log(incidentID);
 
       await createIncidentUpdate({
         incident_id: incidentID,
-        author: author.trim(),
+        author: userName,
         message: message.trim(),
       });
     }
 
-    setAuthor("");
     setMessage("");
-
     router.refresh();
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-2">
@@ -76,13 +74,6 @@ export function AddFollowUpForm({
       >
         Adicionar Report
       </Text>
-
-      <input
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-        placeholder="Autor do Report"
-        className="w-full rounded-md border border-border bg-secondary/40 px-3 py-2 text-sm outline-none"
-      />
 
       <Textarea
         value={message}
@@ -96,7 +87,6 @@ export function AddFollowUpForm({
           <Button
             type="button"
             size="sm"
-            disabled={!author.trim() || !message.trim()}
             className="gap-1.5"
             variant="outline"
             onClick={handleCancelEdit}
@@ -109,7 +99,7 @@ export function AddFollowUpForm({
         <Button
           type="submit"
           size="sm"
-          disabled={!author.trim() || !message.trim()}
+          disabled={!userName || !message.trim()}
           className="gap-1.5"
         >
           <Send className="h-3.5 w-3.5" />
