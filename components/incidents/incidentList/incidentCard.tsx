@@ -7,6 +7,7 @@ import StatusBadge from "@/components/ui/statusBadge";
 import { Incident } from "@/types/incident";
 import { getTimeFromNow } from "@/utils/time";
 import { IncidentStarInfo } from "../incidentStartInfo";
+import { sortUpdates } from "@/utils/sortUpdates";
 
 interface IncidentCardProps {
   incident: Incident;
@@ -19,8 +20,10 @@ export function IncidentCard({
   isSelected,
   onClick,
 }: IncidentCardProps) {
-  const lastUpdateItem = incident.incident_updates?.length
-    ? incident.incident_updates[incident.incident_updates.length - 1]
+  const sortedUpdates = sortUpdates(incident.incident_updates);
+
+  const lastUpdateItem = sortedUpdates.length
+    ? sortedUpdates[sortedUpdates.length - 1]
     : null;
 
   const lastUpdateTime = lastUpdateItem?.created_at

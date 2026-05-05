@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { EmptyIncidentUpdatesState } from "./emptyIncidentUpdates";
 import { formatDateBR } from "@/utils/time";
+import { sortUpdates } from "@/utils/sortUpdates";
 
 interface FollowUpTimelineProps {
   updates: IncidentUpdates[];
@@ -35,10 +36,7 @@ export function FollowUpTimeline({
     return <EmptyIncidentUpdatesState />;
   }
 
-  const sortedUpdates = [...updates].sort(
-    (a, b) =>
-      new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
-  );
+  const sortedUpdates = sortUpdates(updates);
 
   return (
     <div className="relative">
