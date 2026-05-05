@@ -6,12 +6,12 @@ import StatusBadge from "@/components/ui/statusBadge";
 import { Button } from "@/components/ui/button";
 
 import { Incident } from "@/types/incident";
-import { IncidentStarInfo } from "../incidentStartInfo";
+import { IncidentTimeInfo } from "../incidentTimeInfo";
 
 interface IncidentDetailsHeaderProps {
   incident: Pick<
     Incident,
-    "title" | "severity" | "status" | "inc" | "created_at"
+    "title" | "severity" | "status" | "inc" | "created_at" | "closed_at"
   >;
   onClose: () => void;
 }
@@ -26,7 +26,10 @@ export function IncidentDetailsHeader({
         <div className="flex items-center gap-2 mb-2">
           <SeverityBadge severity={incident.severity} size="lg" />
           <StatusBadge status={incident.status} size="lg" />
-          <IncidentStarInfo created_at={incident.created_at} />
+          <IncidentTimeInfo
+            created_at={incident.created_at}
+            closed_at={incident.closed_at}
+          />
         </div>
 
         <Text variant="h2" weight="bold" className="leading-snug line-clamp">

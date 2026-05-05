@@ -5,9 +5,9 @@ import { ChevronRight, Users } from "lucide-react";
 import SeverityBadge from "@/components/ui/severityBadge";
 import StatusBadge from "@/components/ui/statusBadge";
 import { Incident } from "@/types/incident";
-import { getTimeFromNow } from "@/utils/time";
-import { IncidentStarInfo } from "../incidentStartInfo";
 import { sortUpdates } from "@/utils/sortUpdates";
+import { getTimeFromNow } from "@/utils/time";
+import { IncidentTimeInfo } from "../incidentTimeInfo";
 
 interface IncidentCardProps {
   incident: Incident;
@@ -83,7 +83,10 @@ export function IncidentCard({
             <Users className="h-3 w-3" />
             {incident.responsible_team}
           </Text>
-          <IncidentStarInfo created_at={incident.created_at} />
+          <IncidentTimeInfo
+            created_at={incident.created_at}
+            closed_at={incident.closed_at}
+          />
         </div>
 
         {/* Row 4 - Last update */}
