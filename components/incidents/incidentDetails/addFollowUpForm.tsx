@@ -78,7 +78,7 @@ export function AddFollowUpForm({
       <Textarea
         value={message}
         onChange={(e) => setMessage(e.target.value)}
-        placeholder="Adicione aqui a mensagemm de atualização do incidente"
+        placeholder="Adicione aqui a mensagem de atualização do incidente"
         className="min-h-20 bg-secondary/40 border-border text-sm resize-none"
       />
 

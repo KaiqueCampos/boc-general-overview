@@ -38,31 +38,31 @@ export function IncidentDetails({
             transition={{ duration: 0.25, ease: "easeOut" }}
             className="flex flex-col h-full w-full bg-card border-l border-border"
           >
-            <IncidentDetailsHeader incident={incident} onClose={onClose} />
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-2 px-6">
-              <IncidentVinculatedCard
-                icon={Ticket}
-                label="INC"
-                value={incident.inc}
-                hrefPrefix="https://abasteceai.atlassian.net/browse/"
-              />
-
-              <IncidentVinculatedCard
-                icon={Ticket}
-                label="BOCM"
-                value={incident.bocm}
-                hrefPrefix="https://abasteceai.atlassian.net/browse/"
-              />
-
-              <IncidentVinculatedCard
-                icon={Ticket}
-                label="GPROB"
-                value={incident.gprob}
-                hrefPrefix="https://abasteceai.atlassian.net/browse/"
-              />
-            </div>
-
             <ScrollArea className="flex-1">
+              <IncidentDetailsHeader incident={incident} onClose={onClose} />
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 px-6">
+                <IncidentVinculatedCard
+                  icon={Ticket}
+                  label="INC"
+                  value={incident.inc}
+                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
+                />
+
+                <IncidentVinculatedCard
+                  icon={Ticket}
+                  label="BOCM"
+                  value={incident.bocm}
+                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
+                />
+
+                <IncidentVinculatedCard
+                  icon={Ticket}
+                  label="GPROB"
+                  value={incident.gprob}
+                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
+                />
+              </div>
+
               <div className="px-6 py-4 space-y-6">
                 {/* Info grid */}
                 <div className="grid grid-cols-1 gap-2">
