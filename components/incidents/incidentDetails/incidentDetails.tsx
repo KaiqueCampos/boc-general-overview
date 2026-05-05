@@ -1,15 +1,20 @@
+`use client`;
+
 import { ScrollArea } from "@/components/ui/scroolArea";
 import { Text } from "@/components/ui/topography";
+import { getJiraDependencies } from "@/lib/integrations/jira";
 import { Incident, IncidentUpdates } from "@/types/incident";
+import { JiraDependenciesResult } from "@/types/jira";
 import { AnimatePresence, motion } from "framer-motion";
-import { AppWindow, Server, Ticket, Users } from "lucide-react";
-import { useState } from "react";
+import { AppWindow, Server, Users } from "lucide-react";
+import { useEffect, useState } from "react";
 import { AddFollowUpForm } from "./addFollowUpForm";
 import { EmptyIncidentDetails } from "./emptyIncidentDetails";
 import { FollowUpTimeline } from "./followUpTimeline";
 import { IncidentDetailsHeader } from "./incidentDetailsHeader";
 import { IncidentInfo } from "./incidentInfo";
-import { IncidentVinculatedCard } from "./incidentVinculatedCards";
+import { parseJiraDependencies } from "@/utils/parseJiraDependencies";
+import { IncidentCardDependencies } from "./incidentCardDependencies";
 
 interface IncidentDetailsProps {
   incident: Incident | null;
@@ -25,6 +30,21 @@ export function IncidentDetails({
   const [editingUpdate, setEditingUpdate] = useState<IncidentUpdates | null>(
     null,
   );
+  const [jiraDeps, setJiraDeps] = useState<JiraDependenciesResult>(null);
+
+  useEffect(() => {
+    async function load() {
+      if (!incident?.inc) return;
+
+      const res = await fetch(`/api/jira?issueKey=${incident.inc}`);
+      const raw = await res.json();
+      const parsed = parseJiraDependencies(raw);
+
+      setJiraDeps(parsed);
+    }
+
+    load();
+  }, [incident?.inc]);
 
   return (
     <div className="flex min-h-0 w-full">
@@ -40,28 +60,7 @@ export function IncidentDetails({
           >
             <ScrollArea className="flex-1">
               <IncidentDetailsHeader incident={incident} onClose={onClose} />
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-2 px-6">
-                <IncidentVinculatedCard
-                  icon={Ticket}
-                  label="INC"
-                  value={incident.inc}
-                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
-                />
-
-                <IncidentVinculatedCard
-                  icon={Ticket}
-                  label="BOCM"
-                  value={incident.bocm}
-                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
-                />
-
-                <IncidentVinculatedCard
-                  icon={Ticket}
-                  label="GPROB"
-                  value={incident.gprob}
-                  hrefPrefix="https://abasteceai.atlassian.net/browse/"
-                />
-              </div>
+              <IncidentCardDependencies data={jiraDeps} />
 
               <div className="px-6 py-4 space-y-6">
                 {/* Info grid */}
