@@ -20,7 +20,7 @@ export async function getIncidents(): Promise<getIncidentsProps> {
   const incidents = await getOpenAndRecentResolvedIncidents();
   const openIncidents = incidents.filter((i) => i.status === "open");
   const resolvedIncidents = incidents.filter((i) => i.status === "resolved");
-  const severityCount = countIncidentsBySeverity(incidents);
+  const severityCount = countIncidentsBySeverity(openIncidents);
   const sortedIncidents = sortIncidentsBySeverity(incidents);
 
   return {
